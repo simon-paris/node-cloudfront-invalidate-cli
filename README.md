@@ -20,7 +20,7 @@ If you omit `--secretKeyId` and `--secretAccessKey`, it'll use the default metho
 finding credentials (Environment, INI File, EC2 Metadata Service), which is documented here:
 [docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Using_Profiles_with_the_SDK).
 
-If you use the --wait option, the command will not exit until the invalidation is complete. It does
+If you use the `--wait` option, the command will not exit until the invalidation is complete. It does
 this by polling `GetInvalidation` every 5 seconds.
 
 This tool needs permission for `cloudfront:CreateInvalidation` and `cloudfront:GetInvalidation`.
