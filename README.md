@@ -1,5 +1,5 @@
 # node-cloudfront-invalidate-cli
-A CLI for invalidating cloudfront objects that's a bit easier to use than the
+A CLI for creating invalidations on CloudFront, that's a bit easier to use than the
 official AWS CLI.
 
 ## Install
@@ -16,11 +16,12 @@ cf-invalidate --wait -- ABCDEFGHIJK file1 file2 file3
 ```
 
 
-If you omit the AWS credentials, it'll use the default method of finding credentials,
-which is documented here:
+If you omit `--secretKeyId` and `--secretAccessKey`, it'll use the default method of
+finding credentials (Environment, INI File, EC2 Metadata Service), which is documented here:
 [docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Using_Profiles_with_the_SDK).
 
-If you use the --wait option, the command will not exit until the invalidation is complete.
+If you use the --wait option, the command will not exit until the invalidation is complete. It does
+this by polling `GetInvalidation` every 5 seconds.
 
 This tool needs permission for `cloudfront:CreateInvalidation` and `cloudfront:GetInvalidation`.
 
@@ -28,7 +29,7 @@ If there is an error, it `exit(1)`s, and prints the error message to stderr.
 
 It's not intended to be used programmatically, but if you want:
 ```shell
-require("node-cloudfront-invalidate-cli")("<distribution>", ["<path>"], {wait: false}, function () {
-    console.log("Done");
+require("node-cloudfront-invalidate-cli")("ABCDEFGHIJK", ["file1", "file2", "file3"], {wait: true}, function (err) {
+    console.log(err || "Success");
 });
 ```
