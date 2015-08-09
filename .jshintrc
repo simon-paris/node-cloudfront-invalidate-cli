@@ -1,0 +1,22 @@
+{
+    "strict": true,
+    "undef": true,
+    "unused": false,
+    "camelcase": false,
+    "curly": true,
+    "indent": 4,
+    "devel": true,
+    "forin": true,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "nonew": true,
+    "trailing": true,
+    "maxlen": 120,
+    "debug": true,
+    "node": true,
+    "browser": true,
+    "eqeqeq": true,
+    "globals":{
+    }
+}
