@@ -85,7 +85,7 @@
             
             var invalidationId = res.Invalidation.Id;
             if (options.wait) {
-                
+                var i = 0;
                 var iteration = function () {
                     cloudfront.getInvalidation({
                         DistributionId: dist,
@@ -98,7 +98,7 @@
                         } else {
                             setTimeout(function () {
                                 iteration();
-                            }, 1000);
+                            }, 1000 * Math.pow(2, i++));
                         }
                         
                     });
