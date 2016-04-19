@@ -29,7 +29,7 @@
     "cf-invalidate": "index.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.1.44",
-    "yargs": "^3.18.0"
+    "aws-sdk": "^2.3.3",
+    "yargs": "^4.6.0"
   }
 }
