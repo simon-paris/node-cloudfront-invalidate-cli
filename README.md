@@ -21,7 +21,7 @@ finding credentials (Environment, INI File, EC2 Metadata Service), which is docu
 [docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Using_Profiles_with_the_SDK).
 
 If you use the `--wait` option, the command will not exit until the invalidation is complete. It does
-this by polling `GetInvalidation` after 1000ms * 2^iterationCycle (e.g. it increases the timeout between polls exponentially).
+this by polling `GetInvalidation` after min(60000, 1000ms * 2^iterationCycle) (e.g. it increases the timeout between polls exponentially).
 
 This tool needs permission for `cloudfront:CreateInvalidation` and `cloudfront:GetInvalidation`.
 
