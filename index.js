@@ -85,7 +85,7 @@
             
             var invalidationId = res.Invalidation.Id;
             if (options.wait) {
-                
+                var i = 0;
                 var iteration = function () {
                     cloudfront.getInvalidation({
                         DistributionId: dist,
@@ -96,9 +96,11 @@
                         if (res.Invalidation.Status === "Completed") {
                             return callback();
                         } else {
+                            var nextTry = 1000 * Math.pow(2, i++);
+                            log('Invalidation not done yet, next try in ' + nextTry + 'ms.')
                             setTimeout(function () {
                                 iteration();
-                            }, 1000);
+                            }, nextTry);
                         }
                         
                     });
