@@ -8,7 +8,7 @@ npm install cloudfront-invalidate-cli -g
 ```
 ## Use
 ```shell
-cf-invalidate [--wait] [--secretKeyId <keyId> --secretAccessKey <key>] -- <distribution> <path>...
+cf-invalidate [--wait] [--accessKeyId <keyId> --secretAccessKey <key>] -- <distribution> <path>...
 
 # Examples:
 cf-invalidate -- ABCDEFGHIJK index.html
@@ -16,7 +16,7 @@ cf-invalidate --wait -- ABCDEFGHIJK file1 file2 file3
 ```
 
 
-If you omit `--secretKeyId` and `--secretAccessKey`, it'll use the default method of
+If you omit `--accessKeyId` and `--secretAccessKey`, it'll use the default method of
 finding credentials (Environment, INI File, EC2 Metadata Service), which is documented here:
 [docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Using_Profiles_with_the_SDK).
 

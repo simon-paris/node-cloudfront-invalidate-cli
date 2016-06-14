@@ -5,14 +5,13 @@
     
     
     var usageString =
-        "cf-invalidate [--wait] [--secretKeyId <keyId> --secretAccessKey <key>] -- <distribution> <path>...";
+        "cf-invalidate [--wait] [--accessKeyId <keyId> --secretAccessKey <key>] -- <distribution> <path>...";
     var exampleString =
         "cf-invalidate -- myDistribution file1 file2 file3";
     
     var AWS = require("aws-sdk");
     var yargs = require("yargs");
     
-    var cloudfront = new AWS.CloudFront();
     var log = function () {};
     var error = function () {};
     
@@ -48,15 +47,16 @@
      *  paths - An array of pathnames to invalidate
      *  options - Options object
      *      wait - If true, wait until the invalidation is complete.
-     *      secretKeyId - If set, use this as the AWS key ID
+     *      accessKeyId - If set, use this as the AWS key ID
      *      secretAccessKey - The AWS secret key
      *  callback - Callback
      */
     function invalidate(dist, paths, options, callback) {
+        var cloudfront = new AWS.CloudFront();
         
-        if (options.secretKeyId) {
+        if (options.accessKeyId) {
             cloudfront.config.update({
-                secretKeyId: options.secretKeyId,
+                accessKeyId: options.accessKeyId,
                 secretAccessKey: options.secretAccessKey,
             });
         }
@@ -129,7 +129,7 @@
             .usage(usageString)
             .example(exampleString)
             .demand(2)
-            .option("secretKeyId", {
+            .option("accessKeyId", {
                 alias: "i",
                 describe: "AWS Key Id override",
             })
@@ -137,8 +137,8 @@
                 alias: "k",
                 describe: "AWS Secret Key override",
             })
-            .implies("secretKeyId", "secretAccessKey")
-            .implies("secretAccessKey", "secretKeyId")
+            .implies("accessKeyId", "secretAccessKey")
+            .implies("secretAccessKey", "accessKeyId")
             .option("wait", {
                 alias: "w",
                 describe: "If set, wait til the invalidation completes",
