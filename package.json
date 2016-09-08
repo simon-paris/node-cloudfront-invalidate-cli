@@ -30,6 +30,6 @@
   },
   "dependencies": {
     "aws-sdk": "^2.3.3",
-    "yargs": "^4.6.0"
+    "yargs": "^5.0.0"
   }
 }
