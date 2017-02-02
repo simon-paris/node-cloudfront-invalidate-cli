@@ -11,7 +11,9 @@
     
     var AWS = require("aws-sdk");
     var yargs = require("yargs");
-    
+    var fs = require("fs");
+    var ini = require("ini");
+
     var log = function () {};
     var error = function () {};
     
@@ -34,7 +36,37 @@
         }[("" + n).length]) + n;
     }
     
-    
+    /**
+     * Function: loadConfigFile
+     *
+     * Wrapper around invalidate(). Adds AWS sercet and access from .ini config file if its set with --config.
+
+     */
+    function loadConfigFile(dist, paths, options, callback) {
+        if (options.config) {
+            fs.readFile(options.config, {encoding: 'utf8'}, function(err, contents) {
+                if (err) {
+                    callback(err);
+                    return;
+                }
+                
+                var config = ini.parse(contents);
+
+                if (config && config.default) {
+                    options.accessKeyId = config.default.access_key;
+                    options.secretAccessKey = config.default.secret_key;
+                }
+                if (!options.secretAccessKey || !options.accessKeyId) {
+                    callback("Config file missing access_key or secret_key");
+                    return;
+                }
+
+                invalidate(dist, paths, options, callback);
+            });
+        } else {
+            invalidate(dist, paths, options, callback);
+        }
+    }
     
     
     /**
@@ -53,7 +85,7 @@
      */
     function invalidate(dist, paths, options, callback) {
         var cloudfront = new AWS.CloudFront();
-        
+
         if (options.accessKeyId) {
             cloudfront.config.update({
                 accessKeyId: options.accessKeyId,
@@ -143,8 +175,12 @@
                 alias: "w",
                 describe: "If set, wait til the invalidation completes",
             })
+            .option("config", {
+                alias: "c",
+                describe: "AWS .ini config file path",
+            })
             .argv;
-        invalidate(argv._[0], argv._.slice(1), argv, function (err) {
+        loadConfigFile(argv._[0], argv._.slice(1), argv, function (err) {
             if (err) {
                 error(err);
                 process.exit(1);
