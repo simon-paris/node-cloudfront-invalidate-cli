@@ -1,6 +1,6 @@
 {
   "name": "cloudfront-invalidate-cli",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "A CLI for invalidating cloudfront distributions that's a bit easier to use than the official AWS CLI.",
   "main": "index.js",
   "scripts": {
